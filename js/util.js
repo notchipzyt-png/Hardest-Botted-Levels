@@ -5,42 +5,22 @@ export function getYoutubeIdFromUrl(url) {
     )?.[1] ?? '';
 }
 
-/**
- * Convert a Medal clip page into Medal's canonical embeddable URL.
- *
- * Medal share links commonly use /games/<game>/clips/<clip-id> and may
- * include invite/tracking query parameters. The iframe player expects the
- * shorter /clip/<clip-id> URL; passing the share URL (or adding ?embed=1)
- * causes Medal to display an error.
- */
-export function getMedalEmbedUrl(video) {
-    try {
-        const url = new URL(video);
-        const hostname = url.hostname.toLowerCase();
-        if (hostname !== 'medal.tv' && !hostname.endsWith('.medal.tv')) {
-            return null;
-        }
-
-        const parts = url.pathname.split('/').filter(Boolean);
-        const clipIndex = parts.findIndex((part) => part.toLowerCase() === 'clips');
-        const clipId = clipIndex >= 0 ? parts[clipIndex + 1] : null;
-
-        // Also accept already-canonical /clip/<id> links.
-        const canonicalId =
-            parts[0]?.toLowerCase() === 'clip' ? parts[1] : clipId;
-        if (!canonicalId) return null;
-
-        return `https://medal.tv/clip/${encodeURIComponent(canonicalId)}`;
-    } catch {
-        return null;
-    }
+export function getMedalClipIdFromUrl(url) {
+    return url.match(
+        /medal\.tv\/(?:games\/[^/]+\/)?clips\/([^/?#]+)/i,
+    )?.[1] ?? '';
 }
 
 export function embed(video) {
-    const medalUrl = getMedalEmbedUrl(video);
-    if (medalUrl) return medalUrl;
+    if (!video) return null;
 
-    return `https://www.youtube.com/embed/${getYoutubeIdFromUrl(video)}`;
+    const medalClipId = getMedalClipIdFromUrl(video);
+    if (medalClipId) {
+        return `https://medal.tv/clip/${medalClipId}/embed`;
+    }
+
+    const youtubeId = getYoutubeIdFromUrl(video);
+    return youtubeId ? `https://www.youtube.com/embed/${youtubeId}` : null;
 }
 
 export function localize(num) {
@@ -51,7 +31,7 @@ export function getThumbnailFromId(id) {
     return `https://img.youtube.com/vi/${id}/mqdefault.jpg`;
 }
 
-// https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-an-array
+// https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
 export function shuffle(array) {
     let currentIndex = array.length, randomIndex;
 
@@ -61,7 +41,7 @@ export function shuffle(array) {
         randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex--;
 
-        // And swap it with the last element.
+        // And swap it with the current element.
         [array[currentIndex], array[randomIndex]] = [
             array[randomIndex],
             array[currentIndex],
