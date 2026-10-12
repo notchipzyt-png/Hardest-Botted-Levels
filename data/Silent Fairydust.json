@@ -4,9 +4,15 @@
     "author": "isaacisbubby2",
     "creators": ["isaacisbubby2"],
     "verifier": "Isaac",
-    "verification": "https://medal.tv/games/geometry-dash/clips/nHV6wCgyngfbgEZIi?invite=cr-MSxyODUsNTQ2ODkxMzcz",
+    "verification": "https://youtu.be/KMPDbZjDcAY",
     "percentToQualify": "100",
     "password": "Free To Copy",
     "records": [
+                {
+            "user": "NotChipz",
+            "link": "https://www.youtube.com/watch?v=nm_y2k079r8",
+            "percent": 100,
+            "hz": 240
+        }
     ]
 }
