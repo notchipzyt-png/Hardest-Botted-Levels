@@ -25,7 +25,7 @@ export default {
                 <table class="list" v-if="list">
                     <tr v-for="([level, err], i) in list">
                         <td class="rank">
-                            <p v-if="i + 1 <= 150" class="type-label-lg">#{{ i + 1 }}</p>
+                            <p v-if="i + 1 <= 500" class="type-label-lg">#{{ i + 1 }}</p>
                             <p v-else class="type-label-lg">Legacy</p>
                         </td>
                         <td class="level" :class="{ 'active': selected == i, 'error': !level }">
@@ -57,7 +57,7 @@ export default {
                     </ul>
                     <h2>Records</h2>
                     <p v-if="selected + 1 <= 75"><strong>{{ level.percentToQualify }}%</strong> or better to qualify</p>
-                    <p v-else-if="selected +1 <= 100"><strong>100%</strong> or better to qualify</p>
+                    <p v-else-if="selected +1 <= 150"><strong>100%</strong> or better to qualify</p>
                     <p v-else>This level does not accept new records.</p>
                     <table class="records">
                         <tr v-for="record in level.records" class="record">
@@ -100,19 +100,13 @@ export default {
                     </template>
                     <h3>Submission Requirements</h3>
                     <p>
-                        Achieved the record without using any disallowed cheats on pointercrate.
+                        This List Goes off of how difficult it is to bot it not how difficult a level is so levels could be harder than the one above it.
                     </p>
                     <p>
                         Achieved the record on the level that is listed on the site - please check the level ID before you submit a record
                     </p>
                     <p>
-                        Have either source audio or clicks/taps in the video. Click sounds mod isn't allowed.
-                    </p>
-                    <p>
-                        The recording must have a previous attempt shown before the completion, unless the completion is on the first attempt.
-                    </p>
-                    <p>
-                        The endscreen must be shown in the completion, and cheat indicator must be enabled unless you are on vanilla GD.
+                        When Verifying, you need the normal showcase and the hitbox + layout version, and optionally you could add clicks to the hitbox + layout version.
                     </p>
                     <p>
                         Do not use unintentional secret routes or bug routes
@@ -182,4 +176,3 @@ export default {
         score,
     },
 };
-
